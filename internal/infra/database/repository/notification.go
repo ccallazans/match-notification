@@ -21,7 +21,7 @@ func NewPostgresNotificationRepo(db *pgImpl.Queries) entity.NotificationRepo {
 func (r *PostgresNotificationRepo) Save(ctx context.Context, notification *entity.Notification) error {
 	parse := pgImpl.SaveNotificationParams{
 		Type:    string(notification.Type),
-		TopicID: int32(notification.Topic.ID),
+		TopicID: int32(notification.TopicID),
 		Body:    notification.Body,
 	}
 

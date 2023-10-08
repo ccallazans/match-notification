@@ -7,6 +7,10 @@ import (
 type User struct {
 	ID     uint
 	Email  string
+}
+
+type UserDomain struct {
+	User
 	Topics []Topic
 }
 

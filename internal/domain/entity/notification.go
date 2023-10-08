@@ -7,15 +7,13 @@ import (
 type Notification struct {
 	ID    uint
 	Type  string
-	Topic Topic
+	TopicID uint
 	Body  string
 }
 
 type NotificationDomain struct {
-	ID    uint
-	Type  string
-	Topic Topic
-	Body  string
+	Notification
+	Topic
 }
 
 type NotificationRepo interface {

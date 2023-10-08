@@ -36,7 +36,7 @@ func (u *Notify) Create(ctx context.Context, notificationType string, topic stri
 
 	notification := &entity.Notification{
 		Type:  string(domain.NotificationType(notificationType)),
-		Topic: *validTopic,
+		TopicID: validTopic.ID,
 		Body:  body,
 	}
 
@@ -45,7 +45,7 @@ func (u *Notify) Create(ctx context.Context, notificationType string, topic stri
 		return err
 	}
 
-	err = u.sendToQueue(ctx, notification)
+	err = u.sendToQueue(ctx, &entity.NotificationDomain{Notification: *notification, Topic: *validTopic})
 	if err != nil {
 		return err
 	}
@@ -71,7 +71,7 @@ func (u *Notify) validateTopic(ctx context.Context, topic string) (*entity.Topic
 	return validTopic, nil
 }
 
-func (u *Notify) sendToQueue(ctx context.Context, notification *entity.Notification) error {
+func (u *Notify) sendToQueue(ctx context.Context, notification *entity.NotificationDomain) error {
 	sendNotificationQueue := os.Getenv("SQS_SEND_NOTIFICATION")
 
 	type Notify struct {
