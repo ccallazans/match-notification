@@ -1,12 +1,14 @@
 package api
 
 import (
+	"database/sql"
+
 	"github.com/ccallazans/match-notification/internal/domain/usecase"
 
 	"github.com/ccallazans/match-notification/internal/infra/database/pgImpl"
+	"github.com/ccallazans/match-notification/internal/infra/database/repository"
 	"github.com/ccallazans/match-notification/internal/infra/queue"
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 )
 
 type Api struct {
@@ -14,15 +16,18 @@ type Api struct {
 	subscriptionUsecase *usecase.Subscription
 }
 
-func NewApi(db *gorm.DB) *gin.Engine {
+func NewApi(db *sql.DB) *gin.Engine {
 	sqsClient := queue.NewSQSClient()
 
-	userRepository := pgimpl.NewPostgresUserRepo(db)
-	topicRepository := pgimpl.NewPostgresTopicRepo(db)
-	notificationRepository := pgimpl.NewPostgresNotificationRepo(db)
+	sqlcGen := pgImpl.New(db)
+
+	userRepository := repository.NewPostgresUserRepo(sqlcGen)
+	topicRepository := repository.NewPostgresTopicRepo(sqlcGen)
+	userTopicsRepository := repository.NewPostgresPostgresUserTopics(sqlcGen)
+	notificationRepository := repository.NewPostgresNotificationRepo(sqlcGen)
 
 	notifyUsecase := usecase.NewNotify(notificationRepository, topicRepository, sqsClient)
-	subscriptionUsecase := usecase.NewSubscription(userRepository, topicRepository)
+	subscriptionUsecase := usecase.NewSubscription(userRepository, topicRepository, userTopicsRepository)
 
 	api := &Api{
 		notifyUsecase:       notifyUsecase,

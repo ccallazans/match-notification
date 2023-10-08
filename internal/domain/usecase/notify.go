@@ -29,20 +29,15 @@ func NewNotify(notificationRepo entity.NotificationRepo, topicRepo entity.TopicR
 }
 
 func (u *Notify) Create(ctx context.Context, notificationType string, topic string, body string) error {
-	validTopic, err := u.topicRepo.FindByName(ctx, topic)
+	validTopic, err := u.validateTopic(ctx, topic)
 	if err != nil {
-		return &utils.ValidationErr{Message: "topic do not exist"}
+		return err
 	}
 
 	notification := &entity.Notification{
-		Type:    domain.NotificationType(notificationType),
-		TopicID: validTopic.ID,
-		Body:    body,
-	}
-
-	err = notification.Type.Validate()
-	if err != nil {
-		return &utils.ValidationErr{Message: err.Error()}
+		Type:  string(domain.NotificationType(notificationType)),
+		Topic: *validTopic,
+		Body:  body,
 	}
 
 	err = u.notificationRepo.Save(ctx, notification)
@@ -56,6 +51,24 @@ func (u *Notify) Create(ctx context.Context, notificationType string, topic stri
 	}
 
 	return nil
+}
+
+func (u *Notify) validateTopic(ctx context.Context, topic string) (*entity.Topic, error) {
+	topicExists, err := u.topicRepo.Exists(ctx, topic)
+	if err != nil {
+		return nil, err
+	}
+
+	if !topicExists {
+		return nil, &utils.ValidationErr{Message: "topic do not exist"}
+	}
+
+	validTopic, err := u.topicRepo.FindByName(ctx, topic)
+	if err != nil {
+		return nil, err
+	}
+
+	return validTopic, nil
 }
 
 func (u *Notify) sendToQueue(ctx context.Context, notification *entity.Notification) error {
@@ -75,7 +88,7 @@ func (u *Notify) sendToQueue(ctx context.Context, notification *entity.Notificat
 	}
 
 	objectByte, err := json.Marshal(&Notify{
-		Type:  string(notification.Type),
+		Type:  notification.Type,
 		Topic: notification.Topic.Name,
 		Body:  notification.Body,
 	})

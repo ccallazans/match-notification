@@ -1,19 +1,30 @@
 package database
 
 import (
+	"database/sql"
+	"log"
 	"os"
 
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
+	_ "github.com/lib/pq"
 )
 
-func NewPostgresConnection() *gorm.DB {
+func NewPostgresConn() *sql.DB {
 	connString := os.Getenv("DATABASE_URL")
 
-	db, err := gorm.Open(postgres.Open(connString), &gorm.Config{})
+	dbConn, err := sql.Open("postgres", connString)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
-	return db
+	schemaSQL, err := os.ReadFile("./sql/schema.sql")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	_, err = dbConn.Exec(string(schemaSQL))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return dbConn
 }

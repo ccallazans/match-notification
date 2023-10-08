@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/ccallazans/match-notification/internal/api"
-	"github.com/ccallazans/match-notification/internal/domain/entity"
 	"github.com/ccallazans/match-notification/internal/infra/database"
 
 	"github.com/joho/godotenv"
@@ -18,15 +17,11 @@ func main() {
 		log.Fatal("Error loading .env file", err)
 	}
 
-	db := database.NewPostgresConnection()
-	err = db.AutoMigrate(&entity.Notification{}, &entity.Topic{}, &entity.User{})
-	if err != nil {
-		log.Fatal(err)
-	}
+	db := database.NewPostgresConn()
 
 	router := api.NewApi(db)
 	server := &http.Server{
-		Addr:         ":8082",
+		Addr:         ":8080",
 		Handler:      router,
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 10 * time.Second,

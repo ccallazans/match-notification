@@ -2,18 +2,20 @@ package entity
 
 import (
 	"context"
-
-	"github.com/ccallazans/match-notification/internal/domain"
-	"gorm.io/gorm"
 )
 
 type Notification struct {
-	gorm.Model
-	ID      uint
-	Type    domain.NotificationType
-	TopicID uint
-	Topic   Topic
-	Body    string
+	ID    uint
+	Type  string
+	Topic Topic
+	Body  string
+}
+
+type NotificationDomain struct {
+	ID    uint
+	Type  string
+	Topic Topic
+	Body  string
 }
 
 type NotificationRepo interface {
