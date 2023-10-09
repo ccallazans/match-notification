@@ -35,9 +35,14 @@ func (u *Notify) Create(ctx context.Context, notificationType string, topic stri
 	}
 
 	notification := &entity.Notification{
-		Type:  string(domain.NotificationType(notificationType)),
+		Type:    domain.NotificationType(notificationType),
 		TopicID: validTopic.ID,
-		Body:  body,
+		Body:    body,
+	}
+
+	err = notification.Type.Validate()
+	if err != nil {
+		return err
 	}
 
 	err = u.notificationRepo.Save(ctx, notification)
@@ -88,7 +93,7 @@ func (u *Notify) sendToQueue(ctx context.Context, notification *entity.Notificat
 	}
 
 	objectByte, err := json.Marshal(&Notify{
-		Type:  notification.Type,
+		Type:  string(notification.Type),
 		Topic: notification.Topic.Name,
 		Body:  notification.Body,
 	})

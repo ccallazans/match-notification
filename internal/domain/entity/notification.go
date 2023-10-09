@@ -2,11 +2,13 @@ package entity
 
 import (
 	"context"
+
+	"github.com/ccallazans/match-notification/internal/domain"
 )
 
 type Notification struct {
 	ID    uint
-	Type  string
+	Type  domain.NotificationType
 	TopicID uint
 	Body  string
 }
