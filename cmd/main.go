@@ -5,9 +5,8 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/ccallazans/match-notification/config"
 	"github.com/ccallazans/match-notification/internal/api"
-	"github.com/ccallazans/match-notification/internal/infra/database"
-
 	"github.com/joho/godotenv"
 )
 
@@ -17,7 +16,7 @@ func main() {
 		log.Fatal("Error loading .env file", err)
 	}
 
-	db := database.NewPostgresConn()
+	db := config.NewPostgresConn()
 
 	router := api.NewApi(db)
 	server := &http.Server{

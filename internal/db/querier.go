@@ -2,7 +2,7 @@
 // versions:
 //   sqlc v1.22.0
 
-package pgImpl
+package db
 
 import (
 	"context"

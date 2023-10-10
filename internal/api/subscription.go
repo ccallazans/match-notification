@@ -3,7 +3,7 @@ package api
 import (
 	"net/http"
 
-	"github.com/ccallazans/match-notification/internal/domain/utils"
+	"github.com/ccallazans/match-notification/internal/utils"
 	"github.com/gin-gonic/gin"
 )
 

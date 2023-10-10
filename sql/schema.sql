@@ -20,3 +20,10 @@ CREATE TABLE IF NOT EXISTS user_topics (
     topic_id INTEGER REFERENCES topics(id),
     PRIMARY KEY (user_id, topic_id)
 );
+
+CREATE TABLE IF NOT EXISTS types (
+    id BIGSERIAL PRIMARY KEY,
+    body TEXT NOT NULL UNIQUE
+);
+
+INSERT INTO types(body) VALUES ('MATCH'), ('GOAL');
