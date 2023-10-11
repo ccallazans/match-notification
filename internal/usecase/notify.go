@@ -34,13 +34,13 @@ func (u *Notify) Create(ctx context.Context, notificationType string, topicName 
 		return err
 	}
 
+	if body == "" {
+		return &utils.ValidationErr{Message: "body cannot be empty"}
+	}
+
 	topic, err := u.repo.FindTopicByName(ctx, strings.ToUpper(topicName))
 	if err != nil {
 		return &utils.ValidationErr{Message: fmt.Sprintf("invalid topic: %s", topicName)}
-	}
-
-	if body == "" {
-		return &utils.ValidationErr{Message: "body cannot be empty"}
 	}
 
 	notification := db.Notification{

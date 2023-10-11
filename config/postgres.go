@@ -16,15 +16,15 @@ func NewPostgresConn() *sql.DB {
 		log.Fatal(err)
 	}
 
-	schemaSQL, err := os.ReadFile("./sql/schema.sql")
-	if err != nil {
-		log.Fatal(err)
-	}
+	// schemaSQL, err := os.ReadFile("./sql/schema.sql")
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
 
-	_, err = dbConn.Exec(string(schemaSQL))
-	if err != nil {
-		log.Fatal(err)
-	}
+	// _, err = dbConn.Exec(string(schemaSQL))
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
 
 	return dbConn
 }

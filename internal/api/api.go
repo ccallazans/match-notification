@@ -12,6 +12,7 @@ import (
 type Api struct {
 	notifyUsecase       *usecase.Notify
 	subscriptionUsecase *usecase.Subscription
+	userUsecase         *usecase.UserUsecase
 }
 
 func NewApi(conn *sql.DB) *gin.Engine {
@@ -21,15 +22,18 @@ func NewApi(conn *sql.DB) *gin.Engine {
 
 	notifyUsecase := usecase.NewNotify(repository, sqsClient)
 	subscriptionUsecase := usecase.NewSubscription(repository)
+	userUsecase := usecase.NewUserUsecase(repository)
 
 	api := &Api{
 		notifyUsecase:       notifyUsecase,
 		subscriptionUsecase: subscriptionUsecase,
+		userUsecase:         userUsecase,
 	}
 
 	router := gin.Default()
 	router.POST("/subscribe", api.Subscribe)
 	router.POST("/notify", api.Notify)
+	router.GET("/users", api.FindUsersByTopic)
 
 	return router
 }

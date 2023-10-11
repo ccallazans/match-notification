@@ -1,4 +1,4 @@
-package validation
+package validations
 
 type Rule func(key string, value interface{}) error
 
