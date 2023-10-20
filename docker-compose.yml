@@ -1,0 +1,16 @@
+services:
+  postgres:
+    container_name: postgres-match-notification
+    image: postgres:latest
+    environment:
+      - POSTGRES_DB=notification
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: always
+
+volumes:
+  pgdata:
+    driver: local
