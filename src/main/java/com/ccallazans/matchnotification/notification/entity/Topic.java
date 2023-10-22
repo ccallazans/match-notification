@@ -1,4 +1,4 @@
-package com.ccallazans.matchnotification.subscription.entity;
+package com.ccallazans.matchnotification.notification.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -17,8 +17,10 @@ public class Topic {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
+    @Column(name = "name")
     private String name;
 
     @ManyToMany(mappedBy = "topics")

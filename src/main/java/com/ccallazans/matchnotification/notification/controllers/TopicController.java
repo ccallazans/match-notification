@@ -1,8 +1,9 @@
-package com.ccallazans.matchnotification.subscription.controllers;
+package com.ccallazans.matchnotification.notification.controllers;
 
-import com.ccallazans.matchnotification.subscription.controllers.dto.CreateTopicDTO;
-import com.ccallazans.matchnotification.subscription.domain.TopicDomain;
-import com.ccallazans.matchnotification.subscription.services.TopicService;
+import com.ccallazans.matchnotification.notification.controllers.dto.CreateTopicDTO;
+import com.ccallazans.matchnotification.notification.domain.TopicDomain;
+import com.ccallazans.matchnotification.notification.services.TopicService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +21,7 @@ public class TopicController {
     private TopicService topicService;
 
     @PostMapping("/new")
-    public ResponseEntity<TopicDomain> createTopic(@RequestBody CreateTopicDTO createTopicDTO) {
-        if (createTopicDTO.name() == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-
+    public ResponseEntity<TopicDomain> createTopic(@Valid @RequestBody CreateTopicDTO createTopicDTO) {
         var topic = topicService.createTopic(createTopicDTO.name());
 
         URI location = UriComponentsBuilder
@@ -35,7 +32,7 @@ public class TopicController {
         return ResponseEntity.status(HttpStatus.CREATED).location(location).body(topic);
     }
 
-    @GetMapping("")
+    @GetMapping("/")
     public ResponseEntity<List<TopicDomain>> getAllTopics() {
         List<TopicDomain> topics = topicService.getAllTopics();
         return ResponseEntity.status(HttpStatus.OK).body(topics);

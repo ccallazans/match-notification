@@ -1,5 +1,6 @@
 package com.ccallazans.matchnotification.aws;
 
+import com.ccallazans.matchnotification.exceptions.IntegrationException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,18 +19,15 @@ public class SQSService {
 
     public void sendNotification(Object object) {
         log.info(String.format("Start sending notification: %s", object));
-
-        var message = buildMessage(object);
-
+        var message = buildMessage(object, notificationQueue);
         sqsClient.sendMessage(message);
-        log.info("Notification sent successfully");
     }
 
-    private SendMessageRequest buildMessage(Object object) {
+    private SendMessageRequest buildMessage(Object object, String queue) {
         var message = parseObject(object);
 
         return SendMessageRequest.builder()
-                .queueUrl(notificationQueue)
+                .queueUrl(queue)
                 .messageBody(message)
                 .build();
     }
@@ -41,7 +39,7 @@ public class SQSService {
         try {
             jsonMessage = objectMapper.writeValueAsString(object);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new IntegrationException(e.getMessage());
         }
 
         return jsonMessage;

@@ -1,8 +1,10 @@
 package com.ccallazans.matchnotification.notification.controllers;
 
-import com.ccallazans.matchnotification.notification.controllers.dto.NotificationDTO;
+import com.ccallazans.matchnotification.notification.controllers.dto.CreateNotificationDTO;
 import com.ccallazans.matchnotification.notification.domain.NotificationDomain;
 import com.ccallazans.matchnotification.notification.services.NotificationService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,20 +24,20 @@ public class NotificationController {
     /**
      * Create a new notification.
      *
-     * @param notificationRequest The DTO containing notification details.
+     * @param createNotificationDTO The DTO containing notification details.
      * @return ResponseEntity with the created notification and location header.
      */
     @PostMapping("/new")
-    public ResponseEntity<NotificationDomain> createNotification(@RequestBody NotificationDTO notificationRequest) {
-
+    public ResponseEntity<NotificationDomain> createNotification(@RequestBody @Valid CreateNotificationDTO createNotificationDTO) {
         var notification = notificationService.createNotification(
-                notificationRequest.type(), notificationRequest.topic(), notificationRequest.message());
+                createNotificationDTO.topic(), createNotificationDTO.type(), createNotificationDTO.message());
+
         var location = UriComponentsBuilder
                 .fromPath("/api/notifications/{notificationId}")
                 .buildAndExpand(notification.getId())
                 .toUriString();
-        return ResponseEntity.status(HttpStatus.CREATED).location(URI.create(location)).body(notification);
 
+        return ResponseEntity.status(HttpStatus.CREATED).location(URI.create(location)).body(notification);
     }
 
     /**
@@ -45,7 +47,7 @@ public class NotificationController {
      * @return ResponseEntity with the retrieved notification or NOT_FOUND if not found.
      */
     @GetMapping("/{id}")
-    public ResponseEntity<NotificationDomain> getNotification(@PathVariable Long id) {
+    public ResponseEntity<NotificationDomain> getNotification(@PathVariable @NotBlank Long id) {
         var notification = notificationService.getNotificationById(id);
         return ResponseEntity.status(HttpStatus.OK).body(notification);
     }
@@ -55,7 +57,7 @@ public class NotificationController {
      *
      * @return ResponseEntity with a list of all notifications or NOT_FOUND if the list is empty.
      */
-    @GetMapping
+    @GetMapping("/")
     public ResponseEntity<List<NotificationDomain>> getAllNotifications() {
         var notifications = notificationService.getAllNotifications();
         return ResponseEntity.status(HttpStatus.OK).body(notifications);

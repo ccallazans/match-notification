@@ -1,7 +1,7 @@
-package com.ccallazans.matchnotification.subscription.mappers;
+package com.ccallazans.matchnotification.notification.domain.mappers;
 
-import com.ccallazans.matchnotification.subscription.domain.TopicDomain;
-import com.ccallazans.matchnotification.subscription.entity.Topic;
+import com.ccallazans.matchnotification.notification.domain.TopicDomain;
+import com.ccallazans.matchnotification.notification.entity.Topic;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

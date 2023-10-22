@@ -1,5 +1,6 @@
 package com.ccallazans.matchnotification.exceptions.handlers;
 
+import com.ccallazans.matchnotification.exceptions.IntegrationException;
 import com.ccallazans.matchnotification.exceptions.NotFoundException;
 import com.ccallazans.matchnotification.exceptions.ValidationException;
 import org.springframework.http.HttpHeaders;
@@ -16,12 +17,17 @@ public class ResponseStatusExceptionHandler extends ResponseEntityExceptionHandl
     @ExceptionHandler({ValidationException.class})
     public ResponseEntity<Object> handleValidationException(Exception ex, WebRequest request) {
         ReponseError message = new ReponseError(ex.getMessage());
-
-        return new ResponseEntity<Object>(message, new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(message, new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({NotFoundException.class})
-    public ResponseEntity<Void> handleNotFoundException(Exception ex, WebRequest request) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    public ResponseEntity<Object> handleNotFoundException(Exception ex, WebRequest request) {
+        var message = new ReponseError(ex.getMessage());
+        return new ResponseEntity<>(message, new HttpHeaders(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler({IntegrationException.class})
+    public ResponseEntity<Void> handleIntegrationException(Exception ex, WebRequest request) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 }

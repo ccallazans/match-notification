@@ -1,7 +1,6 @@
 package com.ccallazans.matchnotification.notification.entity;
 
-import com.ccallazans.matchnotification.enums.TypeEnum;
-import com.ccallazans.matchnotification.subscription.entity.Topic;
+import com.ccallazans.matchnotification.notification.enums.TypeEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,9 +17,11 @@ public class Notification {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "type")
     private TypeEnum type;
 
     @ManyToOne

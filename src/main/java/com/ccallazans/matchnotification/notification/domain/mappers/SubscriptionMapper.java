@@ -1,9 +1,11 @@
-package com.ccallazans.matchnotification.subscription.mappers;
+package com.ccallazans.matchnotification.notification.domain.mappers;
 
-import com.ccallazans.matchnotification.subscription.domain.SubscriptionDomain;
-import com.ccallazans.matchnotification.subscription.entity.Subscription;
+import com.ccallazans.matchnotification.notification.domain.SubscriptionDomain;
+import com.ccallazans.matchnotification.notification.entity.Subscription;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface SubscriptionMapper {
@@ -11,6 +13,7 @@ public interface SubscriptionMapper {
     SubscriptionMapper INSTANCE = Mappers.getMapper(SubscriptionMapper.class);
 
     SubscriptionDomain toSubscriptionDomain(Subscription subscription);
+    List<SubscriptionDomain> toSubscriptionDomains(List<Subscription> subscriptions);
 
     Subscription toSubscription(SubscriptionDomain subscriptionDomain);
 }

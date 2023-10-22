@@ -1,4 +1,4 @@
-package com.ccallazans.matchnotification.subscription.entity;
+package com.ccallazans.matchnotification.notification.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

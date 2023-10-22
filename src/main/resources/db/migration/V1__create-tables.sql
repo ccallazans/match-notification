@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS topics (
 CREATE TABLE IF NOT EXISTS notifications (
     id BIGSERIAL PRIMARY KEY,
     type text NOT NULL,
-    topic_id INTEGER NOT NULL REFERENCES topics(id),
+    topic_id BIGSERIAL NOT NULL REFERENCES topics(id),
     message TEXT NOT NULL
 );
 
@@ -16,8 +16,8 @@ CREATE TABLE IF NOT EXISTS subscriptions (
 );
 
 CREATE TABLE IF NOT EXISTS subscription_topics (
-    subscription_id INTEGER REFERENCES subscriptions(id),
-    topic_id INTEGER REFERENCES topics(id),
+    subscription_id BIGSERIAL REFERENCES subscriptions(id),
+    topic_id BIGSERIAL REFERENCES topics(id),
     PRIMARY KEY (subscription_id, topic_id)
 );
 

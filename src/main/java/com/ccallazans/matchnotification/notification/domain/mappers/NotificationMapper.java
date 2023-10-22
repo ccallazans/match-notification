@@ -1,4 +1,4 @@
-package com.ccallazans.matchnotification.notification.mappers;
+package com.ccallazans.matchnotification.notification.domain.mappers;
 
 import com.ccallazans.matchnotification.notification.domain.NotificationDomain;
 import com.ccallazans.matchnotification.notification.entity.Notification;
