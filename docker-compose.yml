@@ -1,0 +1,24 @@
+services:
+  app:
+    build: .
+    container_name: app-match-notification
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+
+  postgres:
+    container_name: postgres-match-notification
+    image: postgres:16.0-alpine3.18
+    environment:
+      - POSTGRES_DB=notification
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: always
+
+volumes:
+  pgdata:
+    driver: local
