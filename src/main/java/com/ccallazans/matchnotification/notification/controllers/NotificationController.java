@@ -4,6 +4,11 @@ import com.ccallazans.matchnotification.notification.controllers.dto.CreateNotif
 import com.ccallazans.matchnotification.notification.controllers.dto.NotificationResponse;
 import com.ccallazans.matchnotification.notification.mappers.NotificationMapper;
 import com.ccallazans.matchnotification.notification.services.NotificationService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -22,12 +27,12 @@ public class NotificationController {
 
     private NotificationService notificationService;
 
-    /**
-     * Create a new notification.
-     *
-     * @param createNotificationDTO The DTO containing notification details.
-     * @return ResponseEntity with the created notification and location header.
-     */
+    @Operation(summary = "Create a notification")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Created notification", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = NotificationResponse.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content)})
     @PostMapping("/new")
     public ResponseEntity<NotificationResponse> createNotification(@RequestBody @Valid CreateNotificationDTO createNotificationDTO) {
 
@@ -45,12 +50,12 @@ public class NotificationController {
                 .body(NotificationMapper.INSTANCE.toNotificationResponse(notification));
     }
 
-    /**
-     * Get a notification by its ID.
-     *
-     * @param id The ID of the notification to retrieve.
-     * @return ResponseEntity with the retrieved notification or NOT_FOUND if not found.
-     */
+    @Operation(summary = "Get a notification by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the notification", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = NotificationResponse.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content)})
     @GetMapping("/{id}")
     public ResponseEntity<NotificationResponse> getNotification(@PathVariable @NotBlank Long id) {
         var notification = notificationService.getNotificationById(id);
@@ -60,11 +65,13 @@ public class NotificationController {
                 .body(NotificationMapper.INSTANCE.toNotificationResponse(notification));
     }
 
-    /**
-     * Get all notifications.
-     *
-     * @return ResponseEntity with a list of all notifications or NOT_FOUND if the list is empty.
-     */
+    @Operation(summary = "Get all notifications")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = NotificationResponse.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content)})
     @GetMapping("/")
     public ResponseEntity<List<NotificationResponse>> getAllNotifications() {
         var notifications = notificationService.getAllNotifications();

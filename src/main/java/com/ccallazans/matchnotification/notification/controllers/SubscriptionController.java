@@ -4,6 +4,11 @@ import com.ccallazans.matchnotification.notification.controllers.dto.CreateSubsc
 import com.ccallazans.matchnotification.notification.controllers.dto.SubscriptionResponse;
 import com.ccallazans.matchnotification.notification.mappers.SubscriptionMapper;
 import com.ccallazans.matchnotification.notification.services.SubscriptionService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -22,12 +27,12 @@ public class SubscriptionController {
 
     private SubscriptionService subscriptionService;
 
-    /**
-     * Subscribe an email to a topic.
-     *
-     * @param createSubscriptionDTO The DTO containing email and topic.
-     * @return ResponseEntity with the created subscription and location header.
-     */
+    @Operation(summary = "Create a subscription")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Created subscription", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = SubscriptionResponse.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content)})
     @PostMapping("/new")
     public ResponseEntity<SubscriptionResponse> subscribe(
             @RequestBody @Valid CreateSubscriptionDTO createSubscriptionDTO
@@ -45,12 +50,12 @@ public class SubscriptionController {
                 .body(SubscriptionMapper.INSTANCE.toSubscriptionResponse(subscription));
     }
 
-    /**
-     * Get a subscription by its ID.
-     *
-     * @param id The ID of the notification to retrieve.
-     * @return ResponseEntity with the retrieved subscription or NOT_FOUND if not found.
-     */
+    @Operation(summary = "Get a subscription by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the subscription", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = SubscriptionResponse.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content)})
     @GetMapping("/{id}")
     public ResponseEntity<SubscriptionResponse> getSubscription(@PathVariable @NotBlank Long id) {
         var subscription = subscriptionService.getSubscriptionById(id);
@@ -60,11 +65,13 @@ public class SubscriptionController {
                 .body(SubscriptionMapper.INSTANCE.toSubscriptionResponse(subscription));
     }
 
-    /**
-     * Get all notifications.
-     *
-     * @return ResponseEntity with a list of all notifications or NOT_FOUND if the list is empty.
-     */
+    @Operation(summary = "Get all subscriptions")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = SubscriptionResponse.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content)})
     @GetMapping
     public ResponseEntity<List<SubscriptionResponse>> getAllNotifications(
             @RequestParam(name = "topic", required = false) String topic

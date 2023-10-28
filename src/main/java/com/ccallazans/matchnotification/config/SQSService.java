@@ -1,4 +1,4 @@
-package com.ccallazans.matchnotification.aws;
+package com.ccallazans.matchnotification.config;
 
 import com.ccallazans.matchnotification.exceptions.IntegrationException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,15 +17,15 @@ public class SQSService {
     @Value("${cloud.aws.sqs.notification-queue}")
     private String notificationQueue;
 
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
     public void sendNotification(Object object) {
-        log.info(String.format("Start sending notification: %s", object));
-        var message = buildMessage(object, notificationQueue);
-        sqsClient.sendMessage(message);
+        log.info("Start sending notification: {}", object);
+        String message = parseObject(object);
+        sqsClient.sendMessage(buildMessage(message, notificationQueue));
     }
 
-    private SendMessageRequest buildMessage(Object object, String queue) {
-        var message = parseObject(object);
-
+    private SendMessageRequest buildMessage(String message, String queue) {
         return SendMessageRequest.builder()
                 .queueUrl(queue)
                 .messageBody(message)
@@ -33,15 +33,10 @@ public class SQSService {
     }
 
     private String parseObject(Object object) {
-        var objectMapper = new ObjectMapper();
-
-        String jsonMessage;
         try {
-            jsonMessage = objectMapper.writeValueAsString(object);
+            return objectMapper.writeValueAsString(object);
         } catch (Exception e) {
             throw new IntegrationException(e.getMessage());
         }
-
-        return jsonMessage;
     }
 }

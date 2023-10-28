@@ -1,4 +1,4 @@
-package com.ccallazans.matchnotification.aws;
+package com.ccallazans.matchnotification.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

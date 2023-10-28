@@ -7,14 +7,14 @@ import java.util.Set;
 
 
 public record CreateNotificationDTO(
-        @JsonProperty("topics")
-        @NotNull(message = "topic list cannot be empty")
-        Set<String> topics,
         @JsonProperty("type")
-        @NotNull(message = "type cannot be empty")
+        @NotNull()
         String type,
+        @JsonProperty("topics")
+        @NotNull()
+        Set<String> topics,
         @JsonProperty("message")
-        @NotNull(message = "message cannot be empty")
+        @NotNull()
         String message
 ) {
 }
