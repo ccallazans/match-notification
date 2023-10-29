@@ -1,5 +1,6 @@
 package com.ccallazans.matchnotification.notification;
 
+import com.ccallazans.matchnotification.exceptions.NotFoundException;
 import com.ccallazans.matchnotification.exceptions.ValidationException;
 import com.ccallazans.matchnotification.notification.domain.TopicDomain;
 import com.ccallazans.matchnotification.notification.entity.Topic;
@@ -38,6 +39,10 @@ public class TopicService {
 
     public List<TopicDomain> getAllTopics() {
         var topics = topicRepository.findAll();
+        if (topics.isEmpty()) {
+            throw new NotFoundException();
+        }
+
         return TopicMapper.INSTANCE.toTopicDomains(topics);
     }
 }

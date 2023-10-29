@@ -70,6 +70,10 @@ public class NotificationService {
 
     public List<NotificationDomain> getAllNotifications() {
         List<Notification> notifications = notificationRepository.findAll();
+        if (notifications.isEmpty()) {
+            throw new NotFoundException();
+        }
+
         return NotificationMapper.INSTANCE.toNotificationDomains(notifications);
     }
 }

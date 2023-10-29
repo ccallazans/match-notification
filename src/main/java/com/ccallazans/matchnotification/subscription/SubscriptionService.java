@@ -64,6 +64,10 @@ public class SubscriptionService {
 
     public List<SubscriptionDomain> getAllSubscriptions() {
         List<Subscription> subscriptions = subscriptionRepository.findAll();
+        if (subscriptions.isEmpty()) {
+            throw new NotFoundException();
+        }
+
         return SubscriptionMapper.INSTANCE.toSubscriptionDomains(subscriptions);
     }
 
