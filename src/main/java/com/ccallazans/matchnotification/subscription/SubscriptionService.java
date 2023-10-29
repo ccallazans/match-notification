@@ -35,7 +35,7 @@ public class SubscriptionService {
             throw new ValidationException("Email is not valid: " + email);
         }
 
-        if (subscriptionRepository.existsByEmail(email)) {
+        if (subscriptionRepository.existsByEmail(email.toLowerCase())) {
             throw new ValidationException("Email already exists");
         }
 

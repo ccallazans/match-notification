@@ -6,7 +6,7 @@ COPY . /app
 
 RUN mvn clean install
 
-FROM openjdk:17
+FROM openjdk:17-jdk-alpine3.14
 
 COPY --from=0 /app/target/*.jar /app.jar
 
