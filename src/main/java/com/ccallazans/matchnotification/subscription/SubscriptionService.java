@@ -2,12 +2,11 @@ package com.ccallazans.matchnotification.subscription;
 
 import com.ccallazans.matchnotification.exceptions.NotFoundException;
 import com.ccallazans.matchnotification.exceptions.ValidationException;
+import com.ccallazans.matchnotification.notification.repository.TopicRepository;
 import com.ccallazans.matchnotification.subscription.domain.SubscriptionDomain;
 import com.ccallazans.matchnotification.subscription.entity.Subscription;
 import com.ccallazans.matchnotification.subscription.mappers.SubscriptionMapper;
-import com.ccallazans.matchnotification.notification.mappers.TopicMapper;
 import com.ccallazans.matchnotification.subscription.repository.SubscriptionRepository;
-import com.ccallazans.matchnotification.notification.repository.TopicRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -68,8 +67,8 @@ public class SubscriptionService {
         return SubscriptionMapper.INSTANCE.toSubscriptionDomains(subscriptions);
     }
 
-    public List<SubscriptionDomain> getSubscriptionsByTopic(String topic) {
-        List<Subscription> subscriptions = subscriptionRepository.findByTopicsName(topic);
+    public List<SubscriptionDomain> getSubscriptionsByTopics(List<String> topic) {
+        List<Subscription> subscriptions = subscriptionRepository.findByTopicsNameIn(topic);
         return SubscriptionMapper.INSTANCE.toSubscriptionDomains(subscriptions);
     }
 }

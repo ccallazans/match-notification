@@ -77,7 +77,7 @@ class SubscriptionServiceTest {
         var exception = assertThrows(ValidationException.class, () ->
                 subscriptionService.subscribe("example@email.com", validTopics));
 
-        assertEquals("Email already exists: example@email.com", exception.getMessage());
+        assertEquals("Email already exists", exception.getMessage());
     }
 
     @Test

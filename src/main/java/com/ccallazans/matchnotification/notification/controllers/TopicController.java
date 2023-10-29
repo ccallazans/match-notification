@@ -1,10 +1,10 @@
 package com.ccallazans.matchnotification.notification.controllers;
 
+import com.ccallazans.matchnotification.notification.TopicService;
 import com.ccallazans.matchnotification.notification.controllers.dto.CreateTopicDTO;
 import com.ccallazans.matchnotification.notification.controllers.dto.TopicResponse;
 import com.ccallazans.matchnotification.notification.domain.TopicDomain;
 import com.ccallazans.matchnotification.notification.mappers.TopicMapper;
-import com.ccallazans.matchnotification.notification.TopicService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

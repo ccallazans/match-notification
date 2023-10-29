@@ -1,9 +1,9 @@
 package com.ccallazans.matchnotification.subscription.controllers;
 
+import com.ccallazans.matchnotification.subscription.SubscriptionService;
 import com.ccallazans.matchnotification.subscription.controllers.dto.CreateSubscriptionDTO;
 import com.ccallazans.matchnotification.subscription.controllers.dto.SubscriptionResponse;
 import com.ccallazans.matchnotification.subscription.mappers.SubscriptionMapper;
-import com.ccallazans.matchnotification.subscription.SubscriptionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -74,11 +74,11 @@ public class SubscriptionController {
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content)})
     @GetMapping
     public ResponseEntity<List<SubscriptionResponse>> getAllNotifications(
-            @RequestParam(name = "topic", required = false) String topic
+            @RequestParam(name = "topic", required = false) List<String> topic
     ) {
 
         var subscriptions = (topic != null)
-                ? subscriptionService.getSubscriptionsByTopic(topic)
+                ? subscriptionService.getSubscriptionsByTopics(topic)
                 : subscriptionService.getAllSubscriptions();
 
         return ResponseEntity.ok(

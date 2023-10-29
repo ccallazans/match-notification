@@ -7,7 +7,6 @@ import com.ccallazans.matchnotification.notification.domain.NotificationDomain;
 import com.ccallazans.matchnotification.notification.entity.Notification;
 import com.ccallazans.matchnotification.notification.enums.TypeEnum;
 import com.ccallazans.matchnotification.notification.mappers.NotificationMapper;
-import com.ccallazans.matchnotification.notification.mappers.TopicMapper;
 import com.ccallazans.matchnotification.notification.repository.NotificationRepository;
 import com.ccallazans.matchnotification.notification.repository.TopicRepository;
 import jakarta.transaction.Transactional;

@@ -9,4 +9,6 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Long
     boolean existsByEmail(String email);
 
     List<Subscription> findByTopicsName(String topic);
+
+    List<Subscription> findByTopicsNameIn(List<String> topics);
 }
