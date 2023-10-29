@@ -3,7 +3,7 @@ package com.ccallazans.matchnotification.notification.controllers;
 import com.ccallazans.matchnotification.notification.controllers.dto.CreateNotificationDTO;
 import com.ccallazans.matchnotification.notification.controllers.dto.NotificationResponse;
 import com.ccallazans.matchnotification.notification.mappers.NotificationMapper;
-import com.ccallazans.matchnotification.notification.services.NotificationService;
+import com.ccallazans.matchnotification.notification.NotificationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

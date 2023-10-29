@@ -1,7 +1,8 @@
-package com.ccallazans.matchnotification.notification.services;
+package com.ccallazans.matchnotification.notification;
 
 import com.ccallazans.matchnotification.exceptions.ValidationException;
 import com.ccallazans.matchnotification.notification.domain.TopicDomain;
+import com.ccallazans.matchnotification.notification.entity.Topic;
 import com.ccallazans.matchnotification.notification.mappers.TopicMapper;
 import com.ccallazans.matchnotification.notification.repository.TopicRepository;
 import lombok.AllArgsConstructor;
@@ -17,21 +18,22 @@ public class TopicService {
     private final TopicRepository topicRepository;
 
     public TopicDomain createTopic(String topicName) {
+
         if (topicName.isBlank()) {
             throw new ValidationException("Topic cannot be empty");
         }
-
-        var topicDomain = TopicDomain.builder()
-                .name(topicName.toUpperCase())
-                .build();
 
         if (topicRepository.existsByName(topicName.toUpperCase())) {
             throw new ValidationException(String.format("Topic already exists: %s", topicName));
         }
 
-        topicRepository.save(TopicMapper.INSTANCE.toTopic(topicDomain));
+        var topic = Topic.builder()
+                .name(topicName.toUpperCase())
+                .build();
 
-        return topicDomain;
+        topicRepository.save(topic);
+
+        return TopicMapper.INSTANCE.toTopicDomain(topic);
     }
 
     public List<TopicDomain> getAllTopics() {

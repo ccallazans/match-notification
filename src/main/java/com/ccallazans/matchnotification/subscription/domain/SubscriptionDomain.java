@@ -1,5 +1,6 @@
-package com.ccallazans.matchnotification.notification.domain;
+package com.ccallazans.matchnotification.subscription.domain;
 
+import com.ccallazans.matchnotification.notification.domain.TopicDomain;
 import lombok.*;
 
 import java.util.Set;

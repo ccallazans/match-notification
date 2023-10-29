@@ -14,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class NotificationDomain {
     private Long id;
-    private Set<TopicDomain> topics;
     private String type;
+    private Set<TopicDomain> topics;
     private String message;
 }

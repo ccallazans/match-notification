@@ -4,7 +4,7 @@ import com.ccallazans.matchnotification.notification.controllers.dto.CreateTopic
 import com.ccallazans.matchnotification.notification.controllers.dto.TopicResponse;
 import com.ccallazans.matchnotification.notification.domain.TopicDomain;
 import com.ccallazans.matchnotification.notification.mappers.TopicMapper;
-import com.ccallazans.matchnotification.notification.services.TopicService;
+import com.ccallazans.matchnotification.notification.TopicService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

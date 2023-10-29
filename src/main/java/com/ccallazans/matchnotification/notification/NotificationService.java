@@ -1,4 +1,4 @@
-package com.ccallazans.matchnotification.notification.services;
+package com.ccallazans.matchnotification.notification;
 
 import com.ccallazans.matchnotification.config.SQSService;
 import com.ccallazans.matchnotification.exceptions.NotFoundException;
@@ -44,25 +44,22 @@ public class NotificationService {
         }
 
         var validTopics = topics.stream()
-                .map(topic -> {
-                    return TopicMapper.INSTANCE.toTopicDomain(
-                            Optional.ofNullable(topicRepository.findByName(topic))
-                                    .orElseThrow(() -> new ValidationException("Topic is not valid: " + topic.toUpperCase())));
-                })
+                .map(topic -> Optional.ofNullable(topicRepository.findByName(topic))
+                        .orElseThrow(() -> new ValidationException("Topic is not valid: " + topic.toUpperCase()))
+                )
                 .collect(Collectors.toSet());
 
-        var notification = NotificationDomain.builder()
-                .type(typeName)
+        var notification = Notification.builder()
+                .type(TypeEnum.valueOf(typeName))
                 .topics(validTopics)
                 .message(message)
                 .build();
 
-        var savedNotification = notificationRepository.save(
-                NotificationMapper.INSTANCE.toNotification(notification));
+        var savedNotification = notificationRepository.save(notification);
 
         sqsService.sendNotification(NotificationMapper.INSTANCE.toNotificationDomain(savedNotification));
 
-        return notification;
+        return NotificationMapper.INSTANCE.toNotificationDomain(notification);
     }
 
     public NotificationDomain getNotificationById(Long id) {

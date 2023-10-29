@@ -1,12 +1,12 @@
-package com.ccallazans.matchnotification.notification.services;
+package com.ccallazans.matchnotification.subscription;
 
 import com.ccallazans.matchnotification.exceptions.NotFoundException;
 import com.ccallazans.matchnotification.exceptions.ValidationException;
-import com.ccallazans.matchnotification.notification.domain.SubscriptionDomain;
-import com.ccallazans.matchnotification.notification.entity.Subscription;
-import com.ccallazans.matchnotification.notification.mappers.SubscriptionMapper;
+import com.ccallazans.matchnotification.subscription.domain.SubscriptionDomain;
+import com.ccallazans.matchnotification.subscription.entity.Subscription;
+import com.ccallazans.matchnotification.subscription.mappers.SubscriptionMapper;
 import com.ccallazans.matchnotification.notification.mappers.TopicMapper;
-import com.ccallazans.matchnotification.notification.repository.SubscriptionRepository;
+import com.ccallazans.matchnotification.subscription.repository.SubscriptionRepository;
 import com.ccallazans.matchnotification.notification.repository.TopicRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -36,26 +36,24 @@ public class SubscriptionService {
             throw new ValidationException("Email is not valid: " + email);
         }
 
+        if (subscriptionRepository.existsByEmail(email)) {
+            throw new ValidationException("Email already exists");
+        }
+
         var validTopics = topics.stream()
-                .map(topic -> {
-                    return TopicMapper.INSTANCE.toTopicDomain(
-                            Optional.ofNullable(topicRepository.findByName(topic))
-                                    .orElseThrow(() -> new ValidationException("Topic is not valid: " + topic.toUpperCase())));
-                })
+                .map(topic -> Optional.ofNullable(topicRepository.findByName(topic))
+                        .orElseThrow(() -> new ValidationException("Topic is not valid: " + topic.toUpperCase()))
+                )
                 .collect(Collectors.toSet());
 
-        var subscription = SubscriptionDomain.builder()
+        var subscription = Subscription.builder()
                 .email(email.toLowerCase())
                 .topics(validTopics)
                 .build();
 
-        if (subscriptionRepository.existsByEmail(subscription.getEmail())) {
-            throw new ValidationException("Email already exists: " + subscription.getEmail());
-        }
+        subscriptionRepository.save(subscription);
 
-        subscriptionRepository.save(SubscriptionMapper.INSTANCE.toSubscription(subscription));
-
-        return subscription;
+        return SubscriptionMapper.INSTANCE.toSubscriptionDomain(subscription);
     }
 
     public SubscriptionDomain getSubscriptionById(Long id) {
