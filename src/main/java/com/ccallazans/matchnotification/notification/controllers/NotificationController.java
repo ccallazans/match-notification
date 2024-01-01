@@ -1,6 +1,6 @@
 package com.ccallazans.matchnotification.notification.controllers;
 
-import com.ccallazans.matchnotification.notification.NotificationService;
+import com.ccallazans.matchnotification.notification.services.NotificationService;
 import com.ccallazans.matchnotification.notification.controllers.dto.CreateNotificationDTO;
 import com.ccallazans.matchnotification.notification.controllers.dto.NotificationResponse;
 import com.ccallazans.matchnotification.notification.mappers.NotificationMapper;
@@ -41,7 +41,7 @@ public class NotificationController {
 
         var location = UriComponentsBuilder
                 .fromPath("/api/notifications/{notificationId}")
-                .buildAndExpand(notification.getId())
+                .buildAndExpand(notification)
                 .toUriString();
 
         return ResponseEntity

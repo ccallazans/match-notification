@@ -1,4 +1,4 @@
-package com.ccallazans.matchnotification.notification;
+package com.ccallazans.matchnotification.notification.services;
 
 import com.ccallazans.matchnotification.config.SQSService;
 import com.ccallazans.matchnotification.exceptions.NotFoundException;

@@ -1,6 +1,6 @@
 package com.ccallazans.matchnotification.notification.controllers;
 
-import com.ccallazans.matchnotification.notification.TopicService;
+import com.ccallazans.matchnotification.notification.services.TopicService;
 import com.ccallazans.matchnotification.notification.controllers.dto.CreateTopicDTO;
 import com.ccallazans.matchnotification.notification.controllers.dto.TopicResponse;
 import com.ccallazans.matchnotification.notification.domain.TopicDomain;

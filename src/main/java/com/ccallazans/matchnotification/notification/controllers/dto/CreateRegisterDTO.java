@@ -1,17 +1,14 @@
-package com.ccallazans.matchnotification.subscription.controllers.dto;
+package com.ccallazans.matchnotification.notification.controllers.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 
-import java.util.List;
-
-
-public record CreateSubscriptionDTO(
+public record CreateRegisterDTO(
         @JsonProperty("email")
         @NotNull
         String email,
-        @JsonProperty("topics")
+        @JsonProperty("password")
         @NotNull
-        List<String> topics
+        String password
 ) {
 }

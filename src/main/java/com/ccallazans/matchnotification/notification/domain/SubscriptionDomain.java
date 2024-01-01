@@ -1,4 +1,4 @@
-package com.ccallazans.matchnotification.subscription.domain;
+package com.ccallazans.matchnotification.notification.domain;
 
 import com.ccallazans.matchnotification.notification.domain.TopicDomain;
 import lombok.*;

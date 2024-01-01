@@ -1,9 +1,8 @@
 package com.ccallazans.matchnotification.notification.services;
 
 import com.ccallazans.matchnotification.exceptions.ValidationException;
-import com.ccallazans.matchnotification.subscription.SubscriptionService;
 import com.ccallazans.matchnotification.notification.entity.Topic;
-import com.ccallazans.matchnotification.subscription.repository.SubscriptionRepository;
+import com.ccallazans.matchnotification.notification.repository.SubscriptionRepository;
 import com.ccallazans.matchnotification.notification.repository.TopicRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

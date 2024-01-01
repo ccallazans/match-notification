@@ -1,4 +1,4 @@
-package com.ccallazans.matchnotification.subscription.controllers.dto;
+package com.ccallazans.matchnotification.notification.controllers.dto;
 
 import com.ccallazans.matchnotification.notification.controllers.dto.TopicResponse;
 

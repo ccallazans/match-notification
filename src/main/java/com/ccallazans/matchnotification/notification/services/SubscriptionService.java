@@ -1,12 +1,12 @@
-package com.ccallazans.matchnotification.subscription;
+package com.ccallazans.matchnotification.notification.services;
 
 import com.ccallazans.matchnotification.exceptions.NotFoundException;
 import com.ccallazans.matchnotification.exceptions.ValidationException;
 import com.ccallazans.matchnotification.notification.repository.TopicRepository;
-import com.ccallazans.matchnotification.subscription.domain.SubscriptionDomain;
-import com.ccallazans.matchnotification.subscription.entity.Subscription;
-import com.ccallazans.matchnotification.subscription.mappers.SubscriptionMapper;
-import com.ccallazans.matchnotification.subscription.repository.SubscriptionRepository;
+import com.ccallazans.matchnotification.notification.domain.SubscriptionDomain;
+import com.ccallazans.matchnotification.notification.entity.Subscription;
+import com.ccallazans.matchnotification.notification.mappers.SubscriptionMapper;
+import com.ccallazans.matchnotification.notification.repository.SubscriptionRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

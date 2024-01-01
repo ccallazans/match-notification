@@ -7,7 +7,6 @@ import com.ccallazans.matchnotification.notification.entity.Topic;
 import com.ccallazans.matchnotification.notification.enums.TypeEnum;
 import com.ccallazans.matchnotification.notification.repository.NotificationRepository;
 import com.ccallazans.matchnotification.notification.repository.TopicRepository;
-import com.ccallazans.matchnotification.notification.NotificationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

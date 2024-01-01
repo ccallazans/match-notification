@@ -1,9 +1,9 @@
-package com.ccallazans.matchnotification.subscription.controllers;
+package com.ccallazans.matchnotification.notification.controllers;
 
-import com.ccallazans.matchnotification.subscription.SubscriptionService;
-import com.ccallazans.matchnotification.subscription.controllers.dto.CreateSubscriptionDTO;
-import com.ccallazans.matchnotification.subscription.controllers.dto.SubscriptionResponse;
-import com.ccallazans.matchnotification.subscription.mappers.SubscriptionMapper;
+import com.ccallazans.matchnotification.notification.services.SubscriptionService;
+import com.ccallazans.matchnotification.notification.controllers.dto.CreateSubscriptionDTO;
+import com.ccallazans.matchnotification.notification.controllers.dto.SubscriptionResponse;
+import com.ccallazans.matchnotification.notification.mappers.SubscriptionMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
