@@ -1,40 +1,19 @@
-services:
-#  app:
-#    build: .
-#    container_name: app-match-notification
-#    environment:
-#      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-#      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-#      - AWS_REGION=${AWS_REGION}
-#      - DATABASE_URL=${DATABASE_URL}
-#      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
-#      - DATABASE_USER=${DATABASE_USER}
-#      - SQS_NOTIFICATION_QUEUE=${SQS_NOTIFICATION_QUEUE}
-#    ports:
-#      - "8080:8080"
-#    depends_on:
-#      - postgres
-#    networks:
-#      - app-network
+version: '3.9'
 
+services:
   postgres:
     container_name: postgres-match-notification
-    image: postgres:16.0-alpine3.18
+    image: postgres:16.2-alpine3.19
     environment:
-      - POSTGRES_DB=notification
+      - POSTGRES_DB=match-notification
+      - POSTGRES_USERNAME=postgres
       - POSTGRES_PASSWORD=postgres
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     restart: always
-#    networks:
-#      - app-network
 
 volumes:
   pgdata:
     driver: local
-
-#networks:
-#  app-network:
-#    driver: bridge
